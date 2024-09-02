@@ -32,8 +32,8 @@ Stock price prediction involves forecasting the future value of a company's stoc
 To get started, clone this repository and install the necessary dependencies:
 
 ```bash
-git clone https://github.com/yourusername/stock-price-prediction.git
-cd stock-price-prediction
+git clone https://github.com/Onibuje-Olalekan/stock-prediction.git
+cd stock-prediction
 pip install -r requirements.txt
 ```
 

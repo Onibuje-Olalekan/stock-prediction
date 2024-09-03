@@ -6,23 +6,11 @@ import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 from stock_modelling import load_data, preprocess_data
 from sklearn.preprocessing import LabelEncoder
-from pathlib import Path
-import os
-import sys
 
-# Configure Streamlit page
 st.set_page_config(layout="wide")
 
-# Adjust path to include parent directory
-current_dir = os.path.dirname(os.path.abspath(__file__))
-parent_dir = os.path.dirname(current_dir)
-sys.path.append(parent_dir)
-
-def load_model():
-    """Loads the trained model and scaler from files."""
-    filename = './pickle_files/model_stock.pkl'
-    scaler_filename = './pickle_files/scaler_stock.pkl'
-
+def load_model(filename=r'/Users/macintosh/Documents/StockPrediction/pickle_files/model_stock.pkl',
+               scaler_filename=r'/Users/macintosh/Documents/StockPrediction/pickle_files/scaler_stock.pkl'):
     with open(filename, 'rb') as file:
         model = pickle.load(file)
     with open(scaler_filename, 'rb') as file:
@@ -30,7 +18,6 @@ def load_model():
     return model, scaler
 
 def create_plots(subset_df, stock_name, selected_days, chart_type):
-    """Creates and returns plots based on the selected chart type."""
     if chart_type == "Candlestick":
         fig = go.Figure(data=[go.Candlestick(x=subset_df.index,
                                              open=subset_df['Open'],
@@ -53,7 +40,6 @@ def create_plots(subset_df, stock_name, selected_days, chart_type):
     return fig
 
 def main():
-    # Define stock symbols and company names
     stocks = {
         'GTCO.IL': 'Guaranty Trust Holding Co.',
         'AAF.L': 'Airtel Africa Plc',
@@ -75,7 +61,7 @@ def main():
 
     st.sidebar.header("Stocks")
     stock_name = st.sidebar.selectbox("Select Stock", [f"{symbol} ({name})" for symbol, name in stocks.items()])
-    selected_symbol = stock_name.split(" ")[0]  # Extract the symbol from the selected option
+    selected_symbol = stock_name.split(" ")[0]  # Extracts the symbol from the selected option
 
     if st.button('Predict'):
         last_info = stock_df[stock_df['currency'] == selected_symbol].tail(1).drop(columns=['Adj Close', 'Close'])

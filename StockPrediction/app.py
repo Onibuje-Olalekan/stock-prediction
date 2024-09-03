@@ -9,8 +9,10 @@ from sklearn.preprocessing import LabelEncoder
 
 st.set_page_config(layout="wide")
 
-def load_model(filename="./pickle_files/model_stock.pkl",
-               scaler_filename="./pickle_files/scaler_stock.pkl"):
+def load_model():
+    filename = "./pickle_files/model_stock.pkl",
+    scaler_filename = "./pickle_files/scaler_stock.pkl"
+  
     with open(filename, 'rb') as file:
         model = pickle.load(file)
     with open(scaler_filename, 'rb') as file:

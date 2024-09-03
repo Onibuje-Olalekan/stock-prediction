@@ -7,14 +7,16 @@ import matplotlib.pyplot as plt
 from stock_modelling import load_data, preprocess_data
 from sklearn.preprocessing import LabelEncoder
 from pathlib import Path
+import os
 import sys
 
 # Configure Streamlit page
 st.set_page_config(layout="wide")
 
 # Adjust path to include parent directory
-dir = path.Path(__file__).abspath()
-sys.path.append(str(dir.parent.parent))
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.append(parent_dir)
 
 def load_model():
     """Loads the trained model and scaler from files."""

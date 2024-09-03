@@ -6,13 +6,21 @@ import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 from stock_modelling import load_data, preprocess_data
 from sklearn.preprocessing import LabelEncoder
+from pathlib import Path
+import sys
 
+# Configure Streamlit page
 st.set_page_config(layout="wide")
 
+# Adjust path to include parent directory
+dir = Path(__file__).resolve()
+sys.path.append(str(dir.parent.parent))
+
 def load_model():
-    filename = "./pickle_files/model_stock.pkl"
-    scaler_filename = "./pickle_files/scaler_stock.pkl"
-  
+    """Loads the trained model and scaler from files."""
+    filename = './pickle_files/model_stock.pkl'
+    scaler_filename = './pickle_files/scaler_stock.pkl'
+
     with open(filename, 'rb') as file:
         model = pickle.load(file)
     with open(scaler_filename, 'rb') as file:
@@ -20,6 +28,7 @@ def load_model():
     return model, scaler
 
 def create_plots(subset_df, stock_name, selected_days, chart_type):
+    """Creates and returns plots based on the selected chart type."""
     if chart_type == "Candlestick":
         fig = go.Figure(data=[go.Candlestick(x=subset_df.index,
                                              open=subset_df['Open'],
@@ -42,6 +51,7 @@ def create_plots(subset_df, stock_name, selected_days, chart_type):
     return fig
 
 def main():
+    # Define stock symbols and company names
     stocks = {
         'GTCO.IL': 'Guaranty Trust Holding Co.',
         'AAF.L': 'Airtel Africa Plc',
@@ -63,7 +73,7 @@ def main():
 
     st.sidebar.header("Stocks")
     stock_name = st.sidebar.selectbox("Select Stock", [f"{symbol} ({name})" for symbol, name in stocks.items()])
-    selected_symbol = stock_name.split(" ")[0]  # Extracts the symbol from the selected option
+    selected_symbol = stock_name.split(" ")[0]  # Extract the symbol from the selected option
 
     if st.button('Predict'):
         last_info = stock_df[stock_df['currency'] == selected_symbol].tail(1).drop(columns=['Adj Close', 'Close'])

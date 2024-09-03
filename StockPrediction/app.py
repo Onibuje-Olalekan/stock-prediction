@@ -10,7 +10,7 @@ from sklearn.preprocessing import LabelEncoder
 st.set_page_config(layout="wide")
 
 def load_model():
-    filename = "./pickle_files/model_stock.pkl",
+    filename = "./pickle_files/model_stock.pkl"
     scaler_filename = "./pickle_files/scaler_stock.pkl"
   
     with open(filename, 'rb') as file:

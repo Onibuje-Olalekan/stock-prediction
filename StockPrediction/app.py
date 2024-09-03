@@ -13,7 +13,7 @@ import sys
 st.set_page_config(layout="wide")
 
 # Adjust path to include parent directory
-dir = Path(__file__).resolve()
+dir = path.Path(__file__).abspath()
 sys.path.append(str(dir.parent.parent))
 
 def load_model():
